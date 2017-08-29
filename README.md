@@ -29,7 +29,7 @@ if __name__ == '__main__':
     main(NeonArgparser(__doc__).parse_args())
 ```
 
-The Tensorflow implementation uses an `[ArgumentParser](https://docs.python.org/2/library/argparse.html#argumentparser-objects)` instance. The
+The Tensorflow implementation uses an [`ArgumentParser``](https://docs.python.org/2/library/argparse.html#argumentparser-objects) instance. The
 `data_dir` argument specifies the location of cached training data (if any).
 
 It then calls our `main()` function, providing command-line arguments.
@@ -46,14 +46,14 @@ if __name__ == '__main__':
 
 ## Preparing Data
 
-The Neon implementation uses an [MNIST](http://neon.nervanasys.com/docs/latest/datasets.html#mnist) instance to aquire data sets. The
-[MNIST](http://neon.nervanasys.com/docs/latest/datasets.html#mnist) instance handles downloading the MNIST database into a local cache.
+The Neon implementation uses an [`MNIST`](http://neon.nervanasys.com/docs/latest/datasets.html#mnist) instance to aquire data sets. The
+[`MNIST`](http://neon.nervanasys.com/docs/latest/datasets.html#mnist) instance handles downloading the MNIST database into a local cache.
 
 ```
     dataset = MNIST(path=args.data_dir)
 ```
 
-The Tensorflow implementation uses an [mnist.input_data](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist/?hl=fr) instance. 
+The Tensorflow implementation uses an [`mnist.input_data`](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist/?hl=fr) instance. 
 
 ```
     mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
@@ -61,9 +61,9 @@ The Tensorflow implementation uses an [mnist.input_data](https://github.com/tens
 
 ## Defining the Model
 
-The Neon implementation defines the model as two [Affine](http://neon.nervanasys.com/docs/latest/layers.html#compound-layers) layers with
-[Gaussian](http://neon.nervanasys.com/docs/latest/initializers.html) initialization. The first layer has a [rectified linear](http://neon.nervanasys.com/docs/latest/activations.html) activation,
-and the second a [Logistic](http://neon.nervanasys.com/docs/latest/activations.html) activation.
+The Neon implementation defines the model as two [`Affine`](http://neon.nervanasys.com/docs/latest/layers.html#compound-layers) layers with
+[`Gaussian`](http://neon.nervanasys.com/docs/latest/initializers.html) initialization. The first layer has a [rectified linear](http://neon.nervanasys.com/docs/latest/activations.html) activation,
+and the second a [`Logistic`](http://neon.nervanasys.com/docs/latest/activations.html) activation.
 
 The model is instantiated directly with these two layers.
 
@@ -78,8 +78,8 @@ The model is instantiated directly with these two layers.
 
 The Tensorflow implementation defines the model as a collection of
 
-* [placeholder](https://www.tensorflow.org/api_docs/python/tf/placeholder)s, 
-* [Variables](https://www.tensorflow.org/api_docs/python/tf/Variable) initialized using [random_normal_initializer](https://www.tensorflow.org/api_docs/python/tf/random_normal_initializer), 
+* [`placeholder`](https://www.tensorflow.org/api_docs/python/tf/placeholder)s, 
+* [`Variable`](https://www.tensorflow.org/api_docs/python/tf/Variable)s initialized using [`random_normal_initializer`](https://www.tensorflow.org/api_docs/python/tf/random_normal_initializer), 
 * [matrix multiplication](https://www.tensorflow.org/api_docs/python/tf/matmul) operations, and
 * [rectified linear](https://www.tensorflow.org/api_docs/python/tf/nn/relu) activations. 
 
@@ -98,7 +98,7 @@ intermediate values, inputs, and the matrix operations on them.
 
 ## Defining the Optimizer
 
-The Neon implementation defines the optimizer as [GradientDescentMomentum](http://neon.nervanasys.com/docs/latest/optimizers.html#stochastic-gradient-descent)
+The Neon implementation defines the optimizer as [`GradientDescentMomentum`](http://neon.nervanasys.com/docs/latest/optimizers.html#stochastic-gradient-descent)
 
 ```
     optimizer = GradientDescentMomentum(
@@ -107,8 +107,8 @@ The Neon implementation defines the optimizer as [GradientDescentMomentum](http:
 
 The Tensorflow implementation defines the optimizer as a collection of 
 
-* [placeholder](https://www.tensorflow.org/api_docs/python/tf/placeholder)s for the actual and expected outputs, and
-* operations including [reduce_mean](https://www.tensorflow.org/api_docs/python/tf/reduce_mean) and [softmax_cross_entropy_with_logits](https://www.tensorflow.org/versions/master/api_docs/python/tf/nn/softmax_cross_entropy_with_logits) (the cost function)
+* [`placeholder`](https://www.tensorflow.org/api_docs/python/tf/placeholder)s for the actual and expected outputs, and
+* operations including [`reduce_mean`](https://www.tensorflow.org/api_docs/python/tf/reduce_mean) and [`softmax_cross_entropy_with_logits`](https://www.tensorflow.org/versions/master/api_docs/python/tf/nn/softmax_cross_entropy_with_logits) (the cost function)
 
 Again, these objects are references into a graph representation of the
 optimizer.
@@ -124,9 +124,9 @@ optimizer.
 
 The Neon implementation fits the model to the training set by passing the
 optimizer to its `fit()` method. The cost function is specified here using a
-[GeneralizedCost](http://neon.nervanasys.com/docs/latest/generated/neon.layers.l
+[`GeneralizedCost`](http://neon.nervanasys.com/docs/latest/generated/neon.layers.l
 ayer.GeneralizedCost.html) layer and
-[CrossEntropyBinary](http://neon.nervanasys.com/docs/latest/generated/neon.trans
+[`CrossEntropyBinary`](http://neon.nervanasys.com/docs/latest/generated/neon.trans
 forms.cost.CrossEntropyBinary.html) function. The number of training epochs is
 derived from the command line arguments.
 
@@ -142,7 +142,7 @@ derived from the command line arguments.
 The Tensorflow implementation fits the model to the training set by 
 
 1. registering a default
-[session](https://www.tensorflow.org/programmers_guide/graphs#executing_a_graph_in_a_tfsession) in the context of which to execute the graph. 
+[`session`](https://www.tensorflow.org/programmers_guide/graphs#executing_a_graph_in_a_tfsession) in the context of which to execute the graph. 
 
 2. initializing global variables
 
@@ -162,7 +162,7 @@ The Tensorflow implementation fits the model to the training set by
 
 ## Displaying Accuracy
 
-The Neon implementation evaluates the accuracy of the model on the validation set by calling its `eval()` method and passing the [Misclassification](http://neon.nervanasys.com/docs/latest/generated/neon.transforms.cost.Misclassification.html) metric.
+The Neon implementation evaluates the accuracy of the model on the validation set by calling its `eval()` method and passing the [`Misclassification`](http://neon.nervanasys.com/docs/latest/generated/neon.transforms.cost.Misclassification.html) metric.
 
 ```
     error_rate = mlp.eval(dataset.valid_iter, metric=Misclassification())
@@ -171,8 +171,8 @@ The Neon implementation evaluates the accuracy of the model on the validation se
 
 The Tensorflow implementation defines an accuracy measurement as a collection of 
 
-* [placeholder]()s for the actual and expected outputs, and 
-* operations including [equal](https://www.tensorflow.org/versions/r1.3/api_docs/python/tf/equal) and [reduce_mean](https://www.tensorflow.org/api_docs/python/tf/reduce_mean)
+* [`placeholder`]()s for the actual and expected outputs, and 
+* operations including [`equal`](https://www.tensorflow.org/versions/r1.3/api_docs/python/tf/equal) and [`reduce_mean`](https://www.tensorflow.org/api_docs/python/tf/reduce_mean)
 
 These objects are actually references into a graph representation of the
 accuracy formula. It evaluates the accuracy by running this graph with the test
