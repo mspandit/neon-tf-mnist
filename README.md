@@ -1,9 +1,9 @@
-# MNIST in Neon and Tensorflow
+# MNIST in Neon and TensorFlow
 
 This repository includes implementations of a deep learning model using two
 different frameworks: Intel Nervana
 [Neon](http://neon.nervanasys.com/docs/latest/index.html) and Google
-[Tensorflow](https://www.tensorflow.org/). 
+[TensorFlow](https://www.tensorflow.org/). 
 
 These implementations are intended to illustrate the differences in the
 programming models presented by the two frameworks.
@@ -25,11 +25,10 @@ The Neon implementation uses a [`NeonArgparser`](http://neon.nervanasys.com/docs
 
 ```
 if __name__ == '__main__':
-    # parse the command line arguments
     main(NeonArgparser(__doc__).parse_args())
 ```
 
-The Tensorflow implementation uses an [`ArgumentParser``](https://docs.python.org/2/library/argparse.html#argumentparser-objects) instance. The
+The TensorFlow implementation uses an [`ArgumentParser`](https://docs.python.org/2/library/argparse.html#argumentparser-objects) instance. The
 `data_dir` argument specifies the location of cached training data (if any).
 
 It then calls our `main()` function, providing command-line arguments.
@@ -53,7 +52,7 @@ The Neon implementation uses an [`MNIST`](http://neon.nervanasys.com/docs/latest
     dataset = MNIST(path=args.data_dir)
 ```
 
-The Tensorflow implementation uses an [`mnist.input_data`](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist/?hl=fr) instance. 
+The TensorFlow implementation uses an [`mnist.input_data`](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/tutorials/mnist/?hl=fr) instance. 
 
 ```
     mnist = input_data.read_data_sets(FLAGS.data_dir, one_hot=True)
@@ -76,7 +75,7 @@ The model is instantiated directly with these two layers.
                    activation=Logistic(shortcut=True))])
 ```
 
-The Tensorflow implementation defines the model as a collection of
+The TensorFlow implementation defines the model as a collection of
 
 * [`placeholder`](https://www.tensorflow.org/api_docs/python/tf/placeholder)s, 
 * [`Variable`](https://www.tensorflow.org/api_docs/python/tf/Variable)s initialized using [`random_normal_initializer`](https://www.tensorflow.org/api_docs/python/tf/random_normal_initializer), 
@@ -98,14 +97,14 @@ intermediate values, inputs, and the matrix operations on them.
 
 ## Defining the Optimizer
 
-The Neon implementation defines the optimizer as [`GradientDescentMomentum`](http://neon.nervanasys.com/docs/latest/optimizers.html#stochastic-gradient-descent)
+The Neon implementation defines the optimizer as an instance of [`GradientDescentMomentum`](http://neon.nervanasys.com/docs/latest/optimizers.html#stochastic-gradient-descent)
 
 ```
     optimizer = GradientDescentMomentum(
         0.1, momentum_coef=0.9, stochastic_round=args.rounding)
 ```
 
-The Tensorflow implementation defines the optimizer as a collection of 
+The TensorFlow implementation defines the optimizer as a collection of 
 
 * [`placeholder`](https://www.tensorflow.org/api_docs/python/tf/placeholder)s for the actual and expected outputs, and
 * operations including [`reduce_mean`](https://www.tensorflow.org/api_docs/python/tf/reduce_mean) and [`softmax_cross_entropy_with_logits`](https://www.tensorflow.org/versions/master/api_docs/python/tf/nn/softmax_cross_entropy_with_logits) (the cost function)
@@ -124,10 +123,8 @@ optimizer.
 
 The Neon implementation fits the model to the training set by passing the
 optimizer to its `fit()` method. The cost function is specified here using a
-[`GeneralizedCost`](http://neon.nervanasys.com/docs/latest/generated/neon.layers.l
-ayer.GeneralizedCost.html) layer and
-[`CrossEntropyBinary`](http://neon.nervanasys.com/docs/latest/generated/neon.trans
-forms.cost.CrossEntropyBinary.html) function. The number of training epochs is
+[`GeneralizedCost`](http://neon.nervanasys.com/docs/latest/generated/neon.layers.layer.GeneralizedCost.html) layer and
+[`CrossEntropyBinary`](http://neon.nervanasys.com/docs/latest/generated/neon.transforms.cost.CrossEntropyBinary.html) function. The number of training epochs is
 derived from the command line arguments.
 
 ```
@@ -139,7 +136,7 @@ derived from the command line arguments.
         callbacks=callbacks)
 ```
 
-The Tensorflow implementation fits the model to the training set by 
+The TensorFlow implementation fits the model to the training set by 
 
 1. registering a default
 [`session`](https://www.tensorflow.org/programmers_guide/graphs#executing_a_graph_in_a_tfsession) in the context of which to execute the graph. 
@@ -169,7 +166,7 @@ The Neon implementation evaluates the accuracy of the model on the validation se
     neon_logger.display('Classification accuracy = %.4f' % (1 - error_rate))
 ```
 
-The Tensorflow implementation defines an accuracy measurement as a collection of 
+The TensorFlow implementation defines an accuracy measurement as a collection of 
 
 * [`placeholder`]()s for the actual and expected outputs, and 
 * operations including [`equal`](https://www.tensorflow.org/versions/r1.3/api_docs/python/tf/equal) and [`reduce_mean`](https://www.tensorflow.org/api_docs/python/tf/reduce_mean)
@@ -195,7 +192,7 @@ To run the Neon implementation, [follow instructions for installing Neon](http:/
 (.venv2) :neon-tf-mnist $ python neon_mnist_mlp.py 
 ```
 
-To run the Tensorflow implementation, [follow instructions for installing Tensorflow](https://www.tensorflow.org/install/). Then simply enter
+To run the TensorFlow implementation, [follow instructions for installing TensorFlow](https://www.tensorflow.org/install/). Then simply enter
 
 ```
 (tensorflow) :neon-tf-mnist $ python tf_mnist_mlp.py

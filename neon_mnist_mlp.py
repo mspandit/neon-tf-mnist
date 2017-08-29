@@ -87,5 +87,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    # parse the command line arguments
     main(NeonArgparser(__doc__).parse_args())
